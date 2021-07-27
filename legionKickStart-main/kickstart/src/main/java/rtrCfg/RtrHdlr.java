@@ -6,26 +6,29 @@ file name in capscaps format(no underscore)
 class variable should start with c<underscore>varName  c_camelCase
 Use prefix/sufix combo of understandable names. ex: Router - Rtr, Error - Err, Table - Tbl
 Fn Name also camelCase
+class instance should be stored like c_<className>
  */
 
+import arp.HwArpTable;
 import fib.FibTable;
 import rtrTblUtils.V4Utils;
 
 public class RtrHdlr {
+
     public int MAX_ROUTERS = 6;
-
-    public FibTable[] fibTable;
-
+    public FibTable[] c_fibTable;
     public short[] c_portMap;
     public V4Utils c_v4Utils;
+    public HwArpTable c_hwArpTable;
 
     public RtrHdlr() {
         c_portMap = new short[6];
-        fibTable = new FibTable[MAX_ROUTERS];
+        c_fibTable = new FibTable[MAX_ROUTERS];
         for(int i=0;i<MAX_ROUTERS;i++) {
-            fibTable[i] = new FibTable();
+            c_fibTable[i] = new FibTable();
         }
         c_v4Utils = new V4Utils();
+        c_hwArpTable = new HwArpTable();
     }
 
 

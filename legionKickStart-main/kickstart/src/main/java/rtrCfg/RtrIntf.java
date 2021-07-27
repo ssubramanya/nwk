@@ -15,7 +15,6 @@ public class RtrIntf {
     public int MAX_UNIT = 3;
     public byte MAX_MASK = 32;
 
-
     r_unit[] c_intfUnit;
 
     /* Handle subinterfaces
@@ -41,7 +40,6 @@ public class RtrIntf {
         return v4Addr;
     }
 
-
     public RtrIntf(RtrHdlr rh, byte router_id, byte intf_id, boolean isunitConfigured, long v4Addr, byte mask) {
         rh.setConnection(router_id, rh.mapIntfIdToRouterId(intf_id), (byte) ((byte)(intf_id % 2)+1));
         for(int i=0;i<6;i++) {
@@ -52,11 +50,11 @@ public class RtrIntf {
             long v4NwkAddr;
             phyIntfAddr = new V4Adrress(v4Addr,MAX_MASK);
             FibStructure fibStruct = new FibStructure(phyIntfAddr,rh.getSelfIntfIdfromRtrId(router_id),v4Addr);
-            rh.fibTable[router_id].fibmap.put(v4Addr,fibStruct);
+            rh.c_fibTable[router_id].insertFibEntries(v4Addr,fibStruct);
             v4NwkAddr = getNwkAddrforIntfAddr(v4Addr,(byte)(MAX_MASK - mask));
             phyIntfNwkAddr = new V4Adrress(v4NwkAddr,mask);
             fibStruct = new FibStructure(phyIntfNwkAddr,intf_id,v4Addr);
-            rh.fibTable[router_id].fibmap.put(v4NwkAddr,fibStruct);
+            rh.c_fibTable[router_id].insertFibEntries(v4NwkAddr,fibStruct);
         }
         else {
             c_intfUnit = new r_unit[MAX_UNIT];
@@ -64,10 +62,10 @@ public class RtrIntf {
     }
 
     public static void main(String[] args) {
-        /* Examples of utility functions  written
+       // Examples of utility functions  written
         RtrHdlr rh = new RtrHdlr();
         RtrErrHdlr re = new RtrErrHdlr();
-        RtrIntf ri = new RtrIntf(rh, (byte) 1, (byte) 1, false, rh.c_v4Utils.ipToDecimal("10.0.0.1"), (byte)24);
+       /* RtrIntf ri = new RtrIntf(rh, (byte) 1, (byte) 1, false, rh.c_v4Utils.ipToDecimal("10.0.0.1"), (byte)24);
         /*System.out.println();
         RtrIntf ri2 = new RtrIntf(rh, (byte) 1, (byte) 2,false, rh.c_v4Utils.ipToDecimal("20.0.0.1"), (byte)20);
         System.out.println();
@@ -89,5 +87,11 @@ public class RtrIntf {
         rh.fibTable[1].displayFibEntries(rh);
         rh.fibTable[2].displayFibEntries(rh);
         */
+        for(int i=0;i<6;i++) {
+            for(int j=0;j<12;j++) {
+                System.out.print((Long.toHexString(rh.c_hwArpTable.c_hwTable[i][j]) + " "));
+            }
+            System.out.println();
+        }
     }
 }

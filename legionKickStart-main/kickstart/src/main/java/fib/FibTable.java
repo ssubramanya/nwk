@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class FibTable {
     public HashMap<Long,FibStructure> fibmap;
     public FibTable() {
-         fibmap =  new HashMap<Long,FibStructure>();
+        fibmap =  new HashMap<Long,FibStructure>();
     }
 
     public short V4_ADDR_SIZE = 32;
@@ -29,6 +29,9 @@ public class FibTable {
         return qualifiedEntry;
     }
 
+    public void insertFibEntries(long v4Addr, FibStructure fibStruct) {
+        fibmap.put(v4Addr,fibStruct);
+    }
     public void displayFibEntries(RtrHdlr rh) {
         for(Map.Entry<Long, FibStructure> fibItr : fibmap.entrySet()) {
             System.out.print("IP : " + rh.c_v4Utils.ipToString(fibItr.getKey()) + "/" + fibItr.getValue().c_v4Address.c_subnet+"       ");
